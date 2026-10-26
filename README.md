@@ -1,8 +1,7 @@
 <h1>ExpNo 1 :Developing AI Agent with PEAS Description</h1>
-<h3>Name: ABIRAMI A </h3>
+<h3>Name: ABIRAMI A</h3>
 <h3>Register Number: 212224040010</h3>
-<h3>Date : 15/10/2026</h3>
-
+<h3>Date: 15.10.26</h3>
 
 <h3>AIM:</h3>
 <br>
@@ -42,77 +41,62 @@
 <h3>STEP 5:</h3>
 <p>Measure the performance parameters: For each treatment performance incremented, for each movement performance decremented</p>
 
-## Programe
+## PROGRAM:
+
 ```
 import random
 
 class MedicinePrescribingAgent:
     def __init__(self):
-        self.location = "A"
-        self.temperature = {
-            "A": random.randint(97, 103),
-            "B": random.randint(97, 103)
+        self.rooms = {
+            "Room 1": random.uniform(97.0, 102.5),
+            "Room 2": random.uniform(97.0, 102.5)
         }
         self.performance = 0
+        self.current_room = random.choice(list(self.rooms.keys()))
 
-    def move_left(self):
-        if self.location == "B":
-            self.location = "A"
+    def sense(self):
+        """Sense current room and patient's temperature."""
+        temperature = self.rooms[self.current_room]
+        print(f"\nAgent is in {self.current_room}")
 
-    def move_right(self):
-        if self.location == "A":
-            self.location = "B"
+        print(f"Patient Temperature: {temperature:.1f}°F")
+        return temperature
 
-    def check_temperature(self):
-        temp = self.temperature[self.location]
-        print(f"Room {self.location} Temperature: {temp} F")
-
-        if temp > 98.5:
-            self.prescribe_medicine()
+    def prescribe_medicine(self, temperature):
+        """Treat patient if temperature is above 98.5°F."""
+        if temperature > 98.5:
+            print("Patient has fever.")
+            print("Medicine Prescribed.")
+            self.performance += 1
         else:
             print("Patient is healthy.")
+            print("No medicine required.")
 
-    def prescribe_medicine(self):
-        print(f"Medicine prescribed in Room {self.location}")
-        self.performance += 10
-        self.temperature[self.location] = 98.0
+    def move(self):
+        """Move to the other room."""
+        previous_room = self.current_room
+        self.current_room = "Room 2" if self.current_room == "Room 1" else "Room 1"
+        print(f"\nMoving from {previous_room} to {self.current_room}")
+        self.performance -= 1
 
-    def perform_action(self, action):
-        if action == "left":
-            self.performance -= 1
-            self.move_left()
-        elif action == "right":
-            self.performance -= 1
-            self.move_right()
-        elif action == "check":
-            self.check_temperature()
-        else:
-            print("Invalid action")
-
-    def print_status(self):
-        print("Current Location:", self.location)
-        print("Performance Measure:", self.performance)
-        print("Patient Temperatures:", self.temperature)
-        print("-" * 40)
-
+    def run(self):
+        print("=== Medicine Prescribing Agent ===")
+        temperature = self.sense()
+        self.prescribe_medicine(temperature)
+        self.move()
+        temperature = self.sense()
+        self.prescribe_medicine(temperature)
+        print("\nFinal Performance:", self.performance)
 
 agent = MedicinePrescribingAgent()
-
-agent.perform_action("check")
-agent.print_status()
-
-agent.perform_action("right")
-agent.perform_action("check")
-agent.print_status()
-
-agent.perform_action("left")
-agent.perform_action("check")
-agent.print_status()
+agent.run()
 ```
 ## Output
 
-<img width="1410" height="682" alt="Screenshot 2026-10-15 103016" src="https://github.com/user-attachments/assets/3b89ce56-4aed-4f66-be1d-5d8d9560cc1d" />
-
+<img width="397" height="275" alt="image" src="https://github.com/user-attachments/assets/052cbd58-704a-4b6b-8807-c691c1da9c95" />
 
 ## Result
-Thus, the Medicine Prescribing AI Agent was successfully developed using the PEAS description to identify patients with fever, prescribe medicine, and calculate the performance measure based on treatment and movement.
+ Successfully developed an AI agent using the PEAS (Performance Measure, Environment, Actuators, and Sensors) framework to define its goals, environment, actions, and perception.
+
+
